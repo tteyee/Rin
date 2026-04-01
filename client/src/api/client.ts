@@ -1,4 +1,4 @@
-// API Client for Rin - Type-safe HTTP client to replace Eden
+// API Client for Lucky - Type-safe HTTP client to replace Eden
 // This client provides a clean, type-safe interface for all backend API endpoints
 
 import { getAuthToken } from "../utils/auth";
