@@ -41,7 +41,10 @@ export function createMockDB() {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             slug TEXT NOT NULL UNIQUE,
-            created_at INTEGER DEFAULT (unixepoch())
+            description TEXT DEFAULT '' NOT NULL,
+            sort_order INTEGER DEFAULT 0 NOT NULL,
+            created_at INTEGER DEFAULT (unixepoch()) NOT NULL,
+            updated_at INTEGER DEFAULT (unixepoch()) NOT NULL
         );
 
         -- Feeds table
