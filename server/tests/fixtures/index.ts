@@ -37,6 +37,16 @@ export function createMockDB() {
         );
 
         -- Feeds table
+        CREATE TABLE IF NOT EXISTS categories (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            slug TEXT NOT NULL UNIQUE,
+            description TEXT DEFAULT '' NOT NULL,
+            sort_order INTEGER DEFAULT 0 NOT NULL,
+            created_at INTEGER DEFAULT (unixepoch()),
+            updated_at INTEGER DEFAULT (unixepoch())
+        );
+
         CREATE TABLE IF NOT EXISTS feeds (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             alias TEXT,
@@ -49,10 +59,12 @@ export function createMockDB() {
             listed INTEGER DEFAULT 1 NOT NULL,
             draft INTEGER DEFAULT 1 NOT NULL,
             top INTEGER DEFAULT 0 NOT NULL,
+            category_id INTEGER,
             uid INTEGER NOT NULL,
             created_at INTEGER DEFAULT (unixepoch()),
             updated_at INTEGER DEFAULT (unixepoch()),
-            FOREIGN KEY (uid) REFERENCES users(id)
+            FOREIGN KEY (uid) REFERENCES users(id),
+            FOREIGN KEY (category_id) REFERENCES categories(id)
         );
 
         -- Moments table
