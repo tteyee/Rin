@@ -61,7 +61,7 @@ export async function buildHealthCheckResponse(
     clientConfig.get("site.avatar"),
     serverConfig.get(WEBHOOK_URL_KEY),
     serverConfig.getOrDefault("friend_crontab", true),
-    getAIConfig(serverConfig),
+    getAIConfig(serverConfig).then(cfg => cfg ?? { enabled: false, provider: "openai", model: "", api_key: "", api_url: "" }),
   ]);
 
   const items: HealthCheckItem[] = [];
