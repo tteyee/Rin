@@ -1,8 +1,8 @@
 import { Hono } from "hono";
-import type { AppContext } from "../core/hono-types";
+import type { Variables } from "../core/hono-types";
 
-export function AdsService(): Hono {
-    const app = new Hono<{ Variables: AppContext["Variables"] }>();
+export function AdsService(): Hono<{ Bindings: Env; Variables: Variables }> {
+    const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 
     app.get("/", async (c) => {
         const serverConfig = c.get("serverConfig");

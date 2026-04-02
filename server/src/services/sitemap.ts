@@ -1,10 +1,10 @@
 import { Hono } from "hono";
 import { desc, eq, and } from "drizzle-orm";
-import type { AppContext } from "../core/hono-types";
+import type { Variables } from "../core/hono-types";
 import { feeds } from "../db/schema";
 
-export function SitemapService(): Hono {
-    const app = new Hono<{ Variables: AppContext["Variables"] }>();
+export function SitemapService(): Hono<{ Bindings: Env; Variables: Variables }> {
+    const app = new Hono<{ Bindings: Env; Variables: Variables }>();
 
     app.get("/", async (c) => {
         const db = c.get("db");
@@ -17,7 +17,7 @@ export function SitemapService(): Hono {
             .orderBy(desc(feeds.updatedAt))
             .all();
 
-        const urls = rows.map((row) => {
+        const urls = (rows as Array<{ id: number; alias: string | null; updatedAt: Date | null }>).map((row) => {
             const loc = row.alias
                 ? `${host}/${row.alias}`
                 : `${host}/feed/${row.id}`;
