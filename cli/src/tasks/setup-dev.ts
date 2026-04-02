@@ -37,7 +37,7 @@ export async function runSetupDev() {
   }
 
   const wranglerContent = `#:schema node_modules/wrangler/config-schema.json
-name = "${env.WORKER_NAME || "rin-server"}"
+name = "${env.WORKER_NAME || "lucky-server"}"
 main = "server/src/_worker.ts"
 compatibility_date = "2025-03-21"
 
@@ -59,7 +59,7 @@ S3_ACCESS_HOST = "${env.S3_ACCESS_HOST || ""}"
 S3_BUCKET = "${env.S3_BUCKET}"
 S3_FORCE_PATH_STYLE = "${env.S3_FORCE_PATH_STYLE || "false"}"
 WEBHOOK_URL = "${env.WEBHOOK_URL || ""}"
-RSS_TITLE = "${env.RSS_TITLE || "Rin Development"}"
+RSS_TITLE = "${env.RSS_TITLE || "Lucky Development"}"
 RSS_DESCRIPTION = "${env.RSS_DESCRIPTION || "Development Environment"}"
 CACHE_STORAGE_MODE = "${env.CACHE_STORAGE_MODE || "s3"}"
 ADMIN_USERNAME = "${env.ADMIN_USERNAME}"
@@ -72,10 +72,10 @@ database_id = "local"
 
 [[queues.producers]]
 binding = "TASK_QUEUE"
-queue = "${env.TASK_QUEUE_NAME || env.AI_SUMMARY_QUEUE_NAME || `${env.WORKER_NAME || "rin-server"}-tasks`}"
+queue = "${env.TASK_QUEUE_NAME || env.AI_SUMMARY_QUEUE_NAME || `${env.WORKER_NAME || "lucky-server"}-tasks`}"
 
 [[queues.consumers]]
-queue = "${env.TASK_QUEUE_NAME || env.AI_SUMMARY_QUEUE_NAME || `${env.WORKER_NAME || "rin-server"}-tasks`}"
+queue = "${env.TASK_QUEUE_NAME || env.AI_SUMMARY_QUEUE_NAME || `${env.WORKER_NAME || "lucky-server"}-tasks`}"
 max_batch_size = 1
 max_batch_timeout = 5
 ${env.R2_BUCKET_NAME
