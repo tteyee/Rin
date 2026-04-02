@@ -9,8 +9,6 @@ import { useColorMode } from "../utils/darkModeUtils";
 import { buildMarkdownImage, uploadImageFile } from "../utils/image-upload";
 import { Markdown } from "./markdown";
 
-// ─── Editor mode type ────────────────────────────────────────────────────────
-type EditorMode = 'markdown' | 'html' | 'wysiwyg';
 
 interface MarkdownEditorProps {
   content: string;
@@ -20,7 +18,7 @@ interface MarkdownEditorProps {
 }
 
 // ─── Simple WYSIWYG toolbar ───────────────────────────────────────────────────
-function WysiwygToolbar({ onAction }: { onAction: (tag: string) => void }) {
+function _WysiwygToolbar({ onAction }: { onAction: (tag: string) => void }) {
   const tools = [
     { icon: 'ri-bold', label: 'Bold', md: '**bold**', action: 'bold' },
     { icon: 'ri-italic', label: 'Italic', md: '*italic*', action: 'italic' },
