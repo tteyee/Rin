@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { wrapTime } from "hono/timing";
 import type { AppContext } from "../core/hono-types";
 import { setAIConfig, getAIConfig } from "../utils/db-config";
 import { testAIModel } from "../utils/ai";
@@ -47,10 +48,10 @@ export function ConfigService(): Hono {
 
         const env = c.get('env');
         const serverConfig = c.get('serverConfig');
-        const body = await profileAsync(c, 'request_body', () => c.req.json());
+        const body = await wrapTime(c, 'request_body', c.req.json());
 
         // Get current AI config from database
-        const config = await getAIConfig(serverConfig);
+        const config = await wrapTime(c, 'ai_config', getAIConfig(serverConfig));
 
         // Build test config with overrides
         const testConfig = {
@@ -64,7 +65,7 @@ export function ConfigService(): Hono {
         const testPrompt = body.testPrompt || "Hello! This is a test message. Please respond with a simple greeting.";
 
         // Use unified test function
-        const result = await profileAsync(c, 'ai_test', () => testAIModel(env, testConfig, testPrompt));
+        const result = await wrapTime(c, 'ai_test', testAIModel(env, testConfig, testPrompt));
         return c.json(result);
     });
 
@@ -77,7 +78,7 @@ export function ConfigService(): Hono {
 
         const env = c.get('env');
         const serverConfig = c.get('serverConfig');
-        const body = await profileAsync(c, 'request_body', () => c.req.json()) as {
+        const body = await wrapTime(c, 'request_body', c.req.json()) as {
             webhook_url?: string;
             "webhook.method"?: string;
             "webhook.content_type"?: string;
@@ -92,7 +93,7 @@ export function ConfigService(): Hono {
             webhookContentType: resolvedWebhookContentType,
             webhookHeaders: resolvedWebhookHeaders,
             webhookBodyTemplate: resolvedWebhookBodyTemplate,
-        } = await profileAsync(c, 'webhook_config', () => resolveWebhookConfig(serverConfig, env, body));
+        } = await wrapTime(c, 'webhook_config', resolveWebhookConfig(serverConfig, env, body));
         const frontendUrl = new URL(c.req.url).origin;
         const testMessage = body.test_message?.trim() || "This is a test webhook message from Rin settings.";
 
@@ -101,7 +102,7 @@ export function ConfigService(): Hono {
         }
 
         try {
-            const response = await profileAsync(c, 'webhook_send', () => notify(
+            const response = await wrapTime(c, 'webhook_send', notify(
                     webhookUrl,
                     {
                         event: "webhook.test",
@@ -152,7 +153,7 @@ export function ConfigService(): Hono {
         const clientConfig = c.get('clientConfig');
         const env = c.get('env');
 
-        return c.json(await profileAsync(c, 'config_response', () => buildCombinedConfigResponse(clientConfig, serverConfig, env)));
+        return c.json(await wrapTime(c, 'config_response', buildCombinedConfigResponse(clientConfig, serverConfig, env)));
     });
 
     // GET /config/health
@@ -167,7 +168,7 @@ export function ConfigService(): Hono {
         const clientConfig = c.get('clientConfig');
         const env = c.get('env');
 
-        return c.json(await profileAsync(c, 'health_check', () => buildHealthCheckResponse(clientConfig, serverConfig, env)));
+        return c.json(await wrapTime(c, 'health_check', buildHealthCheckResponse(clientConfig, serverConfig, env)));
     });
 
     app.get('/queue-status', async (c: AppContext) => {
@@ -180,7 +181,7 @@ export function ConfigService(): Hono {
         const db = c.get('db');
         const env = c.get('env');
 
-        return c.json(await profileAsync(c, 'queue_status', () => buildQueueStatusResponse(db, env)));
+        return c.json(await wrapTime(c, 'queue_status', buildQueueStatusResponse(db, env)));
     });
 
     app.get('/compat-tasks', async (c: AppContext) => {
@@ -190,7 +191,7 @@ export function ConfigService(): Hono {
             return c.text('Unauthorized', 401);
         }
 
-        return c.json(await profileAsync(c, 'compat_tasks', () => buildCompatTasksResponse(c.get('db'), c.get('serverConfig'), c.get('env'))));
+        return c.json(await wrapTime(c, 'compat_tasks', buildCompatTasksResponse(c.get('db'), c.get('serverConfig'), c.get('env'))));
     });
 
     app.post('/compat-tasks/ai-summary', async (c: AppContext) => {
@@ -202,9 +203,9 @@ export function ConfigService(): Hono {
 
         try {
             const body = c.req.header('content-type')?.includes('application/json')
-                ? await profileAsync(c, 'request_body', () => c.req.json()) as { force?: boolean }
+                ? await wrapTime(c, 'request_body', c.req.json()) as { force?: boolean }
                 : {};
-            return c.json(await profileAsync(c, 'compat_ai_summary', () => runCompatAISummaryBackfill(c.get('db'), c.get('cache'), c.get('serverConfig'), c.get('env'), Boolean(body.force))));
+            return c.json(await wrapTime(c, 'compat_ai_summary', runCompatAISummaryBackfill(c.get('db'), c.get('cache'), c.get('serverConfig'), c.get('env'), Boolean(body.force))));
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
             return c.text(message, 400);
@@ -218,7 +219,7 @@ export function ConfigService(): Hono {
             return c.text('Unauthorized', 401);
         }
 
-        return c.json(await profileAsync(c, 'compat_blurhash_list', () => listBlurhashCompatCandidates(c.get('db'))));
+        return c.json(await wrapTime(c, 'compat_blurhash_list', listBlurhashCompatCandidates(c.get('db'))));
     });
 
     app.post('/compat-tasks/blurhash/:id', async (c: AppContext) => {
@@ -233,13 +234,13 @@ export function ConfigService(): Hono {
             return c.text('Invalid feed id', 400);
         }
 
-        const body = await profileAsync(c, 'request_body', () => c.req.json()) as { content?: string };
+        const body = await wrapTime(c, 'request_body', c.req.json()) as { content?: string };
         if (!body.content) {
             return c.text('Content is required', 400);
         }
 
         try {
-            return c.json(await profileAsync(c, 'compat_blurhash_apply', () => applyBlurhashCompatUpdate(c.get('db'), c.get('cache'), id, body.content)));
+            return c.json(await wrapTime(c, 'compat_blurhash_apply', applyBlurhashCompatUpdate(c.get('db'), c.get('cache'), id, body.content)));
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
             const status = message === 'Feed not found' ? 404 : 400;
@@ -260,7 +261,7 @@ export function ConfigService(): Hono {
         }
 
         try {
-            await profileAsync(c, 'queue_retry', () => retryQueueStatusTask(c.get('db'), c.get('cache'), c.get('serverConfig'), c.get('env'), id));
+            await wrapTime(c, 'queue_retry', retryQueueStatusTask(c.get('db'), c.get('cache'), c.get('serverConfig'), c.get('env'), id));
             return c.json({ success: true });
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
@@ -282,7 +283,7 @@ export function ConfigService(): Hono {
         }
 
         try {
-            await profileAsync(c, 'queue_delete', () => deleteQueueStatusTask(c.get('db'), c.get('cache'), id));
+            await wrapTime(c, 'queue_delete', deleteQueueStatusTask(c.get('db'), c.get('cache'), id));
             return c.json({ success: true });
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
