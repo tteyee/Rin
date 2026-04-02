@@ -17,40 +17,6 @@ interface MarkdownEditorProps {
   height?: string;
 }
 
-// ─── Simple WYSIWYG toolbar ───────────────────────────────────────────────────
-function _WysiwygToolbar({ onAction }: { onAction: (tag: string) => void }) {
-  const tools = [
-    { icon: 'ri-bold', label: 'Bold', md: '**bold**', action: 'bold' },
-    { icon: 'ri-italic', label: 'Italic', md: '*italic*', action: 'italic' },
-    { icon: 'ri-h-1', label: 'H1', action: 'h1' },
-    { icon: 'ri-h-2', label: 'H2', action: 'h2' },
-    { icon: 'ri-h-3', label: 'H3', action: 'h3' },
-    { icon: 'ri-list-unordered', label: 'List', action: 'ul' },
-    { icon: 'ri-list-ordered', label: 'Ordered List', action: 'ol' },
-    { icon: 'ri-link', label: 'Link', action: 'link' },
-    { icon: 'ri-code-line', label: 'Inline Code', action: 'code' },
-    { icon: 'ri-code-block', label: 'Code Block', action: 'codeblock' },
-    { icon: 'ri-double-quotes-l', label: 'Blockquote', action: 'quote' },
-    { icon: 'ri-separator', label: 'Horizontal Rule', action: 'hr' },
-  ];
-
-  return (
-    <div className="flex flex-wrap gap-1 px-3 py-2 border-b border-black/10 dark:border-white/10 bg-secondary/50">
-      {tools.map((t) => (
-        <button
-          key={t.action}
-          type="button"
-          title={t.label}
-          onClick={() => onAction(t.action)}
-          className="h-8 w-8 rounded-lg flex items-center justify-center text-sm t-primary hover:bg-theme/10 hover:text-theme transition-colors"
-        >
-          <i className={t.icon} />
-        </button>
-      ))}
-    </div>
-  );
-}
-
 export function MarkdownEditor({ content, setContent, placeholder = "> Write your content here...", height = "400px" }: MarkdownEditorProps) {
   const { t } = useTranslation();
   const colorMode = useColorMode();
