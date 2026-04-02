@@ -16,7 +16,6 @@ export const feeds = sqliteTable("feeds", {
     listed: integer("listed").default(1).notNull(),
     draft: integer("draft").default(1).notNull(),
     top: integer("top").default(0).notNull(),
-    category_id: integer("category_id"),
     uid: integer("uid").references(() => users.id).notNull(),
     createdAt: created_at,
     updatedAt: updated_at,
@@ -90,16 +89,6 @@ export const hashtags = sqliteTable("hashtags", {
     updatedAt: updated_at,
 });
 
-export const categories = sqliteTable("categories", {
-    id: integer("id").primaryKey(),
-    name: text("name").notNull(),
-    slug: text("slug").notNull().unique(),
-    description: text("description").default("").notNull(),
-    sort_order: integer("sort_order").default(0).notNull(),
-    createdAt: created_at,
-    updatedAt: updated_at,
-});
-
 export const feedHashtags = sqliteTable("feed_hashtags", {
     feedId: integer("feed_id").references(() => feeds.id, { onDelete: 'cascade' }).notNull(),
     hashtagId: integer("hashtag_id").references(() => hashtags.id, { onDelete: 'cascade' }).notNull(),
@@ -126,14 +115,6 @@ export const feedsRelations = relations(feeds, ({ many, one }) => ({
         references: [users.id],
     }),
     comments: many(comments),
-    category: one(categories, {
-        fields: [feeds.category_id],
-        references: [categories.id],
-    }),
-}));
-
-export const categoriesRelations = relations(categories, ({ many }) => ({
-    feeds: many(feeds),
 }));
 
 export const momentsRelations = relations(moments, ({ one }) => ({

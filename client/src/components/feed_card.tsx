@@ -92,14 +92,13 @@ export type FeedCardProps = {
     title: string;
     summary: string;
     hashtags: { id: number, name: string }[];
-    category?: { id: number; name: string; slug: string } | null;
     createdAt: Date;
     updatedAt: Date;
     preview?: boolean;
     variant?: FeedCardVariant;
 };
 
-export function FeedCard({ id, title, avatar, draft, listed, top, summary, hashtags, category, createdAt, updatedAt, preview = false, variant }: FeedCardProps) {
+export function FeedCard({ id, title, avatar, draft, listed, top, summary, hashtags, createdAt, updatedAt, preview = false, variant }: FeedCardProps) {
     const { t } = useTranslation();
     const siteConfig = useSiteConfig();
     const activeVariant = normalizeFeedCardVariant(variant ?? siteConfig.feedCardVariant);
@@ -112,13 +111,6 @@ export function FeedCard({ id, title, avatar, draft, listed, top, summary, hasht
                 </div>
             ) : null}
             <div className={activeVariant === "editorial" ? "px-2 pb-2" : ""}>
-                {/* 카테고리 배지 */}
-                {category && (
-                    <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-theme/10 px-2.5 py-0.5 text-xs font-medium text-theme">
-                        <i className="ri-price-tag-3-line" />
-                        {category.name}
-                    </span>
-                )}
                 <h1 className={styles.title}>{title}</h1>
                 <p className={`space-x-2 ${styles.meta}`}>
                     <span title={new Date(createdAt).toLocaleString()}>

@@ -84,7 +84,7 @@ export async function syncFeedAISummaryQueueState(
     resetSummary?: boolean;
   },
 ) {
-  const aiConfig = await getAIConfig(serverConfig) ?? { enabled: false, provider: "openai", model: "", api_key: "", api_url: "" };
+  const aiConfig = await getAIConfig(serverConfig);
   const shouldQueue = aiConfig.enabled && !options.draft;
 
   if (!shouldQueue) {

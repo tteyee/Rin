@@ -78,8 +78,7 @@ export function FeedService(): Hono<{
                         hashtag: { columns: { id: true, name: true } }
                     }
                 },
-                user: { columns: { id: true, username: true, avatar: true } },
-                category: { columns: { id: true, name: true, slug: true } },
+                user: { columns: { id: true, username: true, avatar: true } }
             },
             orderBy: [desc(feeds.top), desc(feeds.createdAt), desc(feeds.updatedAt)],
             offset: page_num * limit_num,
@@ -130,7 +129,7 @@ export function FeedService(): Hono<{
         const admin = c.get('admin');
         const uid = c.get('uid');
         const body = await profileAsync(c, 'feed_create_parse', () => c.req.json());
-        const { title, alias, listed, content, summary, draft, tags, createdAt, category_id } = body;
+        const { title, alias, listed, content, summary, draft, tags, createdAt } = body;
 
         if (!admin) {
             return c.text('Permission denied', 403);
@@ -168,7 +167,6 @@ export function FeedService(): Hono<{
             alias,
             listed: listed ? 1 : 0,
             draft: draft ? 1 : 0,
-            category_id: category_id ?? null,
             createdAt: date,
             updatedAt: date
         }).returning({ insertedId: feeds.id }));
@@ -208,8 +206,7 @@ export function FeedService(): Hono<{
                         hashtag: { columns: { id: true, name: true } }
                     }
                 },
-                user: { columns: { id: true, username: true, avatar: true } },
-                category: { columns: { id: true, name: true, slug: true } },
+                user: { columns: { id: true, username: true, avatar: true } }
             }
         })));
 
@@ -378,7 +375,7 @@ export function FeedService(): Hono<{
         const uid = c.get('uid');
         const id = c.req.param('id');
         const body = await profileAsync(c, 'feed_update_parse', () => c.req.json());
-        const { title, listed, content, summary, alias, draft, top, tags, createdAt, category_id } = body;
+        const { title, listed, content, summary, alias, draft, top, tags, createdAt } = body;
 
         const id_num = parseInt(id);
         const feed = await profileAsync(c, 'feed_update_lookup', () => db.query.feeds.findFirst({ where: eq(feeds.id, id_num) }));
@@ -407,7 +404,6 @@ export function FeedService(): Hono<{
             top,
             listed: listed ? 1 : 0,
             draft: draft === undefined ? undefined : draft ? 1 : 0,
-            category_id: category_id !== undefined ? (category_id ?? null) : undefined,
             createdAt: createdAt ? new Date(createdAt) : undefined,
             updatedAt: updateTime
         }).where(eq(feeds.id, id_num)));

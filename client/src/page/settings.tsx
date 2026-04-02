@@ -36,16 +36,6 @@ import {
 
 import "../utils/thumb.css";
 
-// ─── nav menu items definition ───────────────────────────────────────────────
-const NAV_MENU_ITEMS = [
-  { key: "nav.show.feeds",    label: "글 목록" },
-  { key: "nav.show.timeline", label: "타임라인" },
-  { key: "nav.show.moments",  label: "순간들" },
-  { key: "nav.show.hashtags", label: "해시태그" },
-  { key: "nav.show.friends",  label: "블로그 친구" },
-  { key: "nav.show.about",    label: "소개" },
-] as const;
-
 const WEBHOOK_METHOD_OPTIONS = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"].map((value) => ({
   label: value,
   value,
@@ -58,145 +48,6 @@ const THEME_COLOR_OPTIONS = [
   { label: "Teal", value: "#0f766e" },
   { label: "Orange", value: "#ea580c" },
 ];
-
-// ─── CategoryManager ─────────────────────────────────────────────────────────
-type CategoryItem = { id: number; name: string; slug: string; description: string; feed_count: number };
-
-function CategoryManager() {
-  const [cats, setCats] = useState<CategoryItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({ name: "", slug: "", description: "" });
-  const [editId, setEditId] = useState<number | null>(null);
-  const [saving, setSaving] = useState(false);
-
-  const load = () => {
-    setLoading(true);
-    fetch("/api/category")
-      .then((r) => r.json())
-      .then((data: CategoryItem[]) => setCats(data))
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  };
-
-  useEffect(() => { load(); }, []);
-
-  const autoSlug = (name: string) =>
-    name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-가-힣]/g, "");
-
-  async function handleSave() {
-    if (!form.name.trim()) return;
-    setSaving(true);
-    const payload = { ...form, slug: form.slug || autoSlug(form.name) };
-    const url = editId ? `/api/category/${editId}` : "/api/category";
-    const method = editId ? "PUT" : "POST";
-    await fetch(url, {
-      method,
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify(payload),
-    });
-    setForm({ name: "", slug: "", description: "" });
-    setEditId(null);
-    setSaving(false);
-    load();
-  }
-
-  async function handleDelete(id: number) {
-    if (!confirm("카테고리를 삭제하시겠습니까? 해당 카테고리의 글에서 카테고리가 제거됩니다.")) return;
-    await fetch(`/api/category/${id}`, { method: "DELETE", credentials: "include" });
-    load();
-  }
-
-  function startEdit(cat: CategoryItem) {
-    setEditId(cat.id);
-    setForm({ name: cat.name, slug: cat.slug, description: cat.description });
-  }
-
-  return (
-    <div className="w-full">
-      <SettingsCard>
-        <SettingsCardRow
-          header={<SettingsCardHeader title="카테고리 목록" description="글 작성 시 카테고리를 선택할 수 있습니다. 홈 화면에서 카테고리 배지로 표시됩니다." />}
-          action={null}
-        />
-        <SettingsCardBody>
-          {/* 카테고리 추가/수정 폼 */}
-          <div className="mb-4 grid gap-2 sm:grid-cols-3">
-            <input
-              type="text"
-              placeholder="카테고리 이름 *"
-              value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value, slug: form.slug || autoSlug(e.target.value) })}
-              className="rounded-xl border border-black/10 bg-w px-3 py-2 text-sm t-primary outline-none focus:border-theme dark:border-white/10"
-            />
-            <input
-              type="text"
-              placeholder="슬러그 (영문, 자동생성)"
-              value={form.slug}
-              onChange={(e) => setForm({ ...form, slug: e.target.value })}
-              className="rounded-xl border border-black/10 bg-w px-3 py-2 text-sm t-primary outline-none focus:border-theme dark:border-white/10"
-            />
-            <input
-              type="text"
-              placeholder="설명 (선택)"
-              value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
-              className="rounded-xl border border-black/10 bg-w px-3 py-2 text-sm t-primary outline-none focus:border-theme dark:border-white/10"
-            />
-          </div>
-          <div className="flex gap-2 mb-4">
-            <button
-              type="button"
-              onClick={handleSave}
-              disabled={saving || !form.name.trim()}
-              className="inline-flex items-center gap-2 rounded-xl bg-theme px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
-            >
-              {saving ? <ReactLoading width="1em" height="1em" type="spin" color="#fff" /> : <i className="ri-save-line" />}
-              {editId ? "수정 완료" : "카테고리 추가"}
-            </button>
-            {editId && (
-              <button type="button" onClick={() => { setEditId(null); setForm({ name: "", slug: "", description: "" }); }}
-                className="rounded-xl border border-black/10 px-4 py-2 text-sm t-primary dark:border-white/10">
-                취소
-              </button>
-            )}
-          </div>
-
-          {/* 카테고리 목록 */}
-          {loading ? (
-            <ReactLoading width="1.5em" height="1.5em" type="spin" color="#FC466B" />
-          ) : cats.length === 0 ? (
-            <p className="text-sm text-neutral-400">카테고리가 없습니다. 위에서 추가해보세요.</p>
-          ) : (
-            <div className="flex flex-col gap-2">
-              {cats.map((cat) => (
-                <div key={cat.id} className="flex items-center justify-between rounded-xl border border-black/10 px-4 py-3 dark:border-white/10">
-                  <div className="flex items-center gap-3">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-theme/10 px-2.5 py-0.5 text-xs font-medium text-theme">
-                      <i className="ri-price-tag-3-line" />{cat.name}
-                    </span>
-                    <span className="text-xs text-neutral-400">/{cat.slug}</span>
-                    <span className="text-xs text-neutral-400">{cat.feed_count}개 글</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <button type="button" onClick={() => startEdit(cat)}
-                      className="rounded-lg px-3 py-1.5 text-xs t-primary hover:bg-theme/10 transition-colors">
-                      <i className="ri-edit-line" />
-                    </button>
-                    <button type="button" onClick={() => handleDelete(cat.id)}
-                      className="rounded-lg px-3 py-1.5 text-xs text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
-                      <i className="ri-delete-bin-line" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </SettingsCardBody>
-      </SettingsCard>
-    </div>
-  );
-}
 
 export function Settings() {
   const { t } = useTranslation();
@@ -573,92 +424,71 @@ export function Settings() {
             </SettingsCard>
           </div>
 
-          {/* ── 네비게이션 메뉴 표시 설정 ── */}
-          <ItemTitle title="네비게이션 메뉴 설정" />
-          <div className="w-full">
-            <SettingsCard>
-              <SettingsCardRow
-                header={<SettingsCardHeader title="메뉴 항목 표시" description="헤더에서 표시할 메뉴 항목을 선택하세요." />}
-                action={null}
-              />
-              <SettingsCardBody>
-                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  {NAV_MENU_ITEMS.map(({ key, label }) => {
-                    const checked = clientConfig.get<boolean>(key) !== false;
-                    return (
-                      <label
-                        key={key}
-                        className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 transition-all ${
-                          checked
-                            ? "border-theme bg-theme/5 shadow-sm shadow-theme/10"
-                            : "border-black/10 hover:border-black/20 dark:border-white/10 dark:hover:border-white/20"
-                        }`}
-                      >
-                        <input
-                          type="checkbox"
-                          className="hidden"
-                          checked={checked}
-                          onChange={(e) => setConfigValue("client", key, e.target.checked)}
-                        />
-                        <span className={`h-4 w-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${checked ? "border-theme bg-theme" : "border-neutral-300 dark:border-neutral-600"}`}>
-                          {checked && <i className="ri-check-line text-white" style={{ fontSize: "10px" }} />}
-                        </span>
-                        <span className="text-sm t-primary">{label}</span>
-                      </label>
-                    );
-                  })}
-                </div>
-              </SettingsCardBody>
-            </SettingsCard>
-          </div>
-
-          {/* ── Header 코드 삽입 (SEO / AdSense) ── */}
-          <ItemTitle title="Header 코드 삽입" />
-          <ItemInput
-            title="Head 태그 코드"
-            description="<head> 태그 안에 삽입될 코드입니다. 네이버 서치어드바이저, 구글 애드센스 인증 코드 등을 넣으세요."
-            configKeyTitle="Head Code"
-            value={String(clientConfig.get("custom.head_code") ?? "")}
-            placeholder={'<meta name="naver-site-verification" content="..." />\n<meta name="google-adsense-account" content="ca-pub-..." />'}
-            onChange={(value) => setConfigValue("client", "custom.head_code", value)}
+          <ItemTitle title={t("settings.navigation.title")} />
+          <ItemSwitch
+            title={t("settings.navigation.timeline")}
+            description={t("settings.navigation.timeline_desc")}
+            checked={clientConfig.getBoolean("nav.show_timeline")}
+            onChange={(checked) => { setConfigValue("client", "nav.show_timeline", checked); }}
+          />
+          <ItemSwitch
+            title={t("settings.navigation.moments")}
+            description={t("settings.navigation.moments_desc")}
+            checked={clientConfig.getBoolean("nav.show_moments")}
+            onChange={(checked) => { setConfigValue("client", "nav.show_moments", checked); }}
+          />
+          <ItemSwitch
+            title={t("settings.navigation.hashtags")}
+            description={t("settings.navigation.hashtags_desc")}
+            checked={clientConfig.getBoolean("nav.show_hashtags")}
+            onChange={(checked) => { setConfigValue("client", "nav.show_hashtags", checked); }}
+          />
+          <ItemSwitch
+            title={t("settings.navigation.friends")}
+            description={t("settings.navigation.friends_desc")}
+            checked={clientConfig.getBoolean("nav.show_friends")}
+            onChange={(checked) => { setConfigValue("client", "nav.show_friends", checked); }}
+          />
+          <ItemSwitch
+            title={t("settings.navigation.about")}
+            description={t("settings.navigation.about_desc")}
+            checked={clientConfig.getBoolean("nav.show_about")}
+            onChange={(checked) => { setConfigValue("client", "nav.show_about", checked); }}
           />
 
-          {/* ── 커스텀 CSS ── */}
-          <ItemTitle title="커스텀 CSS" />
+          <ItemTitle title={t("settings.advanced.title")} />
           <ItemInput
-            title="사이트 CSS 수정"
-            description="h1, h2, h3 등 CSS를 직접 수정할 수 있습니다. GitHub에 접근하지 않고 설정 화면에서 바로 반영됩니다."
+            title={t("settings.advanced.header_code.title")}
+            description={t("settings.advanced.header_code.desc")}
+            configKeyTitle="Header Code"
+            value={String(clientConfig.get("custom.header_code") ?? "")}
+            onChange={(value) => { setConfigValue("client", "custom.header_code", value); }}
+            multiline
+          />
+          <ItemInput
+            title={t("settings.advanced.custom_css.title")}
+            description={t("settings.advanced.custom_css.desc")}
             configKeyTitle="Custom CSS"
             value={String(clientConfig.get("custom.css") ?? "")}
-            placeholder={"h1 { font-size: 2rem; font-weight: bold; }\nh2 { font-size: 1.5rem; }\nh3 { font-size: 1.25rem; }\na { color: var(--color-theme); }"}
-            onChange={(value) => setConfigValue("client", "custom.css", value)}
+            onChange={(value) => { setConfigValue("client", "custom.css", value); }}
+            multiline
           />
-
-          {/* ── 커스텀 Script ── */}
-          <ItemTitle title="커스텀 Script" />
           <ItemInput
-            title="사이트 Script 추가"
-            description="모든 페이지에 삽입될 JavaScript 코드입니다. Google Analytics, 광고 스크립트 등을 추가하세요."
+            title={t("settings.advanced.custom_script.title")}
+            description={t("settings.advanced.custom_script.desc")}
             configKeyTitle="Custom Script"
             value={String(clientConfig.get("custom.script") ?? "")}
-            placeholder={'<!-- Google Analytics -->\n<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXX"></script>'}
-            onChange={(value) => setConfigValue("client", "custom.script", value)}
+            onChange={(value) => { setConfigValue("client", "custom.script", value); }}
+            multiline
           />
-
-          {/* ── ads.txt 관리 ── */}
-          <ItemTitle title="ads.txt 관리" />
           <ItemInput
-            title="ads.txt 내용"
-            description="Google AdSense 등 광고 네트워크를 위한 ads.txt 파일 내용을 입력하세요. /ads.txt 경로로 자동 서빙됩니다."
+            title={t("settings.advanced.ads_txt.title")}
+            description={t("settings.advanced.ads_txt.desc")}
             configKeyTitle="ads.txt"
-            value={String(clientConfig.get("custom.ads_txt") ?? "")}
-            placeholder={"google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0"}
-            onChange={(value) => setConfigValue("client", "custom.ads_txt", value)}
+            value={String(serverConfig.get("ads_txt") ?? "")}
+            onChange={(value) => { setConfigValue("server", "ads_txt", value); }}
+            multiline
           />
-
-          {/* ── 카테고리 관리 ── */}
-          <ItemTitle title="카테고리 관리" />
-          <CategoryManager />
 
           <ItemTitle title={t("settings.other.title")} />
           <ItemSwitch
