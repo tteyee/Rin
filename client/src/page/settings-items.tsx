@@ -51,7 +51,6 @@ export function ItemInput({
   value,
   placeholder,
   onChange,
-  multiline = false,
 }: {
   title: string;
   description: string;
@@ -59,7 +58,6 @@ export function ItemInput({
   value: string;
   placeholder?: string;
   onChange: (value: string) => void;
-  multiline?: boolean;
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -98,7 +96,7 @@ export function ItemInput({
               onChange={(event) => {
                 onChange(event.target.value);
               }}
-              className={`w-full rounded-xl border border-black/10 bg-w px-4 py-3 text-sm t-primary outline-none transition-colors placeholder:text-neutral-400 focus:border-black/20 focus:ring-2 focus:ring-theme/10 dark:border-white/10 dark:placeholder:text-neutral-500 dark:focus:border-white/20 font-mono ${multiline ? "min-h-48" : "min-h-36"}`}
+              className="min-h-36 w-full rounded-xl border border-black/10 bg-w px-4 py-3 text-sm t-primary outline-none transition-colors placeholder:text-neutral-400 focus:border-black/20 focus:ring-2 focus:ring-theme/10 dark:border-white/10 dark:placeholder:text-neutral-500 dark:focus:border-white/20"
             />
           </SettingsCardBody>
         ) : null}

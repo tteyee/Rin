@@ -1,6 +1,7 @@
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "wouter";
-import { useSiteConfig } from "../../../hooks/useSiteConfig";
+import { ClientConfigContext } from "../../../state/config";
 
 export function NavBar({
   menu,
@@ -13,16 +14,30 @@ export function NavBar({
 }) {
   const [location] = useLocation();
   const { t } = useTranslation();
-  const { nav } = useSiteConfig();
+  const config = useContext(ClientConfigContext);
+
+  const show = (key: string) => config.get<boolean>(key) !== false;
 
   return (
     <>
-      <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("article.title")} selected={location === "/" || location.startsWith("/feed")} href="/" />
-      <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("timeline")} selected={location === "/timeline"} href="/timeline" when={nav.showTimeline} />
-      <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("moments.title")} selected={location === "/moments"} href="/moments" when={nav.showMoments} />
-      <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("hashtags")} selected={location === "/hashtags"} href="/hashtags" when={nav.showHashtags} />
-      <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("friends.title")} selected={location === "/friends"} href="/friends" when={nav.showFriends} />
-      <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("about.title")} selected={location === "/about"} href="/about" when={nav.showAbout} />
+      {show("nav.show.feeds") && (
+        <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("article.title")} selected={location === "/" || location.startsWith("/feed")} href="/" />
+      )}
+      {show("nav.show.timeline") && (
+        <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("timeline")} selected={location === "/timeline"} href="/timeline" />
+      )}
+      {show("nav.show.moments") && (
+        <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("moments.title")} selected={location === "/moments"} href="/moments" />
+      )}
+      {show("nav.show.hashtags") && (
+        <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("hashtags")} selected={location === "/hashtags"} href="/hashtags" />
+      )}
+      {show("nav.show.friends") && (
+        <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("friends.title")} selected={location === "/friends"} href="/friends" />
+      )}
+      {show("nav.show.about") && (
+        <NavItem menu={menu} onClick={onClick} itemClassName={itemClassName} title={t("about.title")} selected={location === "/about"} href="/about" />
+      )}
     </>
   );
 }

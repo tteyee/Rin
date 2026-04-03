@@ -142,8 +142,8 @@ export async function runCloudflareDeploy(target: "all" | "server" | "client" = 
     return;
   }
 
-  const dbName = renv("DB_NAME", "lucky");
-  const workerName = renv("WORKER_NAME", "lucky");
+  const dbName = renv("DB_NAME", "rin");
+  const workerName = renv("WORKER_NAME", "lucky-server");
   const taskQueueName = env("TASK_QUEUE_NAME", env("AI_SUMMARY_QUEUE_NAME", `${workerName}-tasks`)) ?? `${workerName}-tasks`;
   const r2BucketName = env("R2_BUCKET_NAME", "");
   const s3Endpoint = env("S3_ENDPOINT", "");
@@ -158,7 +158,7 @@ export async function runCloudflareDeploy(target: "all" | "server" | "client" = 
   const rssDescription = env("RSS_DESCRIPTION", "");
   const cacheStorageMode = env("CACHE_STORAGE_MODE", "s3");
   const name = env("NAME", "Lucky");
-  const description = env("DESCRIPTION", "Lucky - 나만의 블로그");
+  const description = env("DESCRIPTION", "A lightweight personal blogging system");
   const avatar = env("AVATAR", "");
   const pageSize = env("PAGE_SIZE", "5");
   const rssEnable = env("RSS_ENABLE", "false");

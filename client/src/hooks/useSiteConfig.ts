@@ -27,14 +27,6 @@ export function useSiteConfig() {
                 ? parseInt(pageSizeValue, 10)
                 : NaN;
 
-    const getBool = (key: string, defaultVal: boolean) => {
-        const v = config.get<unknown>(key);
-        if (v === undefined || v === null || v === "") return defaultVal;
-        if (typeof v === "boolean") return v;
-        if (typeof v === "string") return v.toLowerCase() !== "false";
-        return Boolean(v);
-    };
-
     return {
         name: config.get<string>(SITE_CONFIG_KEYS.name) || "Lucky",
         description: config.get<string>(SITE_CONFIG_KEYS.description) || "",
@@ -45,13 +37,6 @@ export function useSiteConfig() {
         feedCardVariant: normalizeFeedCardVariant(config.get<string>(SITE_CONFIG_KEYS.feedCardVariant) || "default"),
         headerLayout: config.get<string>(SITE_CONFIG_KEYS.headerLayout) || "classic",
         themeColor: config.get<string>(SITE_CONFIG_KEYS.themeColor) || "#fc466b",
-        nav: {
-            showTimeline: getBool("nav.show_timeline", true),
-            showMoments: getBool("nav.show_moments", true),
-            showHashtags: getBool("nav.show_hashtags", true),
-            showFriends: getBool("nav.show_friends", true),
-            showAbout: getBool("nav.show_about", true),
-        },
     };
 }
 

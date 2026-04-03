@@ -15,14 +15,9 @@ export const CLIENT_CONFIG_DEFAULTS = new Map(
     "comment.enabled": true,
     "login.enabled": true,
     "site.name": "Lucky",
-    "site.description": "Lucky - 나만의 블로그",
-    "site.avatar": "/favicon.png",
+    "site.description": "A lightweight personal blogging system",
+    "site.avatar": "/avatar.png",
     "site.page_size": 5,
-    "nav.show_timeline": true,
-    "nav.show_moments": true,
-    "nav.show_hashtags": true,
-    "nav.show_friends": true,
-    "nav.show_about": true,
   }),
 );
 

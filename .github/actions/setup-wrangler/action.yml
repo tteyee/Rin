@@ -15,7 +15,7 @@ runs:
       run: |
         cat > wrangler.toml << 'EOF'
         #:schema node_modules/wrangler/config-schema.json
-        name = "lucky"
+        name = "rin-server"
         main = "server/src/_worker.ts"
         compatibility_date = "2025-03-21"
 
@@ -34,23 +34,23 @@ runs:
         S3_REGION = "auto"
         S3_ENDPOINT = "https://example.s3.endpoint"
         S3_ACCESS_HOST = "https://example.s3.endpoint"
-        S3_BUCKET = "lucky-bucket"
+        S3_BUCKET = "rin-bucket"
         S3_FORCE_PATH_STYLE = "false"
-        RSS_TITLE = "Lucky"
-        RSS_DESCRIPTION = "Lucky - 나만의 블로그"
+        RSS_TITLE = "Rin"
+        RSS_DESCRIPTION = "A lightweight personal blogging system"
         CACHE_STORAGE_MODE = "s3"
 
         [[d1_databases]]
         binding = "DB"
-        database_name = "lucky"
+        database_name = "rin"
         database_id = "local"
 
         [[queues.producers]]
         binding = "TASK_QUEUE"
-        queue = "lucky-tasks"
+        queue = "rin-tasks"
 
         [[queues.consumers]]
-        queue = "lucky-tasks"
+        queue = "rin-tasks"
         max_batch_size = 1
         max_batch_timeout = 5
         EOF
