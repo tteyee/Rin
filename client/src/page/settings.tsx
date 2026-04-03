@@ -473,28 +473,6 @@ export function Settings() {
             }}
           />
 
-          <ItemInput
-            title={t("settings.head_code.title") ?? "Head 코드 삽입"}
-            description={t("settings.head_code.desc") ?? "<head> 태그 안에 삽입될 코드입니다. 서치콘솔, 애드센스 인증 코드 등을 입력하세요."}
-            configKeyTitle="Head Code"
-            value={String(clientConfig.get("head_code") ?? "")}
-            placeholder="<!-- 예: Google Search Console 인증 코드, 애드센스 코드 -->"
-            onChange={(value) => {
-              setConfigValue("client", "head_code", value);
-            }}
-          />
-
-          <ItemInput
-            title={t("settings.custom_css.title") ?? "커스텀 CSS"}
-            description={t("settings.custom_css.desc") ?? "사이트 전체에 적용될 커스텀 CSS를 입력하세요."}
-            configKeyTitle="Custom CSS"
-            value={String(clientConfig.get("custom_css") ?? "")}
-            placeholder="/* 예시: body { font-family: 'Noto Sans KR', sans-serif; } */"
-            onChange={(value) => {
-              setConfigValue("client", "custom_css", value);
-            }}
-          />
-
           <ItemTitle title={t("settings.webhook.title")} />
           <ItemInput
             title={t("settings.webhook.url.title")}

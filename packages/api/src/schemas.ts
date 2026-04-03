@@ -20,10 +20,6 @@ export const feedCreateSchema = t.Object({
   listed: t.Boolean(),
   createdAt: t.Date({ optional: true }),
   tags: t.Array(t.String()),
-  meta_title: t.String({ optional: true }),
-  meta_description: t.String({ optional: true }),
-  og_image: t.String({ optional: true }),
-  scheduled_at: t.String({ optional: true }),
 });
 
 export const feedUpdateSchema = t.Object({
@@ -36,10 +32,6 @@ export const feedUpdateSchema = t.Object({
   createdAt: t.Date({ optional: true }),
   tags: t.Array(t.String(), { optional: true }),
   top: t.Numeric({ optional: true }),
-  meta_title: t.String({ optional: true }),
-  meta_description: t.String({ optional: true }),
-  og_image: t.String({ optional: true }),
-  scheduled_at: t.String({ optional: true }),
 });
 
 export const feedSetTopSchema = t.Object({

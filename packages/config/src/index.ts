@@ -14,9 +14,9 @@ export const CLIENT_CONFIG_DEFAULTS = new Map(
     "theme.color": "#fc466b",
     "comment.enabled": true,
     "login.enabled": true,
-    "site.name": "Lucky",
+    "site.name": "Rin",
     "site.description": "A lightweight personal blogging system",
-    "site.avatar": "/avatar.png",
+    "site.avatar": "",
     "site.page_size": 5,
   }),
 );
@@ -25,7 +25,7 @@ export const SERVER_CONFIG_DEFAULTS = new Map(
   Object.entries({
     friend_apply_auto_accept: false,
     friend_crontab: true,
-    friend_ua: "Lucky-Check/0.1.0",
+    friend_ua: "Rin-Check/0.1.0",
     "webhook.method": "POST",
     "webhook.content_type": "application/json",
     "webhook.headers": "{}",

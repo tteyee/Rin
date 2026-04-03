@@ -23,8 +23,6 @@ type FeedsMap = {
     [key in FeedType]: FeedsData
 }
 
-type Category = { id: number; name: string; slug: string; feed_count: number }
-
 export function FeedsPage() {
     const { t } = useTranslation()
     const siteConfig = useSiteConfig();
@@ -37,21 +35,10 @@ export function FeedsPage() {
         unlisted: { size: 0, data: [], hasNext: false },
         normal: { size: 0, data: [], hasNext: false }
     })
-    const [categories, setCategories] = useState<Category[]>([])
-    const [activeCategorySlug, setActiveCategorySlug] = useState<string | null>(null)
     const page = tryInt(1, query.get("page"))
     const limit = tryInt(siteConfig.pageSize, query.get("limit"))
     const feedListClass = siteConfig.feedLayout === "masonry" ? "wauto columns-1 gap-5 ani-show md:columns-2" : "wauto flex flex-col ani-show";
     const ref = useRef("")
-
-    // 카테고리 목록 로드
-    useEffect(() => {
-        fetch("/api/category")
-            .then((r) => r.json())
-            .then((data: Category[]) => setCategories(data.filter(c => c.feed_count > 0)))
-            .catch(() => {})
-    }, [])
-
     function fetchFeeds(type: FeedType) {
         client.feed.list({
             page: page,
@@ -111,45 +98,8 @@ export function FeedsPage() {
                         </div>
                     </div>
                     <Waiting for={status === 'idle'}>
-                        {/* 카테고리 필터 바 */}
-                        {categories.length > 0 && (
-                            <div className="wauto flex flex-wrap gap-2 mb-4">
-                                <button
-                                    type="button"
-                                    onClick={() => setActiveCategorySlug(null)}
-                                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                                        activeCategorySlug === null
-                                            ? 'bg-theme text-white'
-                                            : 'border border-black/10 t-primary hover:border-theme hover:text-theme dark:border-white/10'
-                                    }`}
-                                >
-                                    전체
-                                </button>
-                                {categories.map((cat) => (
-                                    <button
-                                        key={cat.slug}
-                                        type="button"
-                                        onClick={() => setActiveCategorySlug(cat.slug === activeCategorySlug ? null : cat.slug)}
-                                        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                                            activeCategorySlug === cat.slug
-                                                ? 'bg-theme text-white'
-                                                : 'border border-black/10 t-primary hover:border-theme hover:text-theme dark:border-white/10'
-                                        }`}
-                                    >
-                                        <i className="ri-price-tag-3-line" />
-                                        {cat.name}
-                                        <span className="opacity-60">({cat.feed_count})</span>
-                                    </button>
-                                ))}
-                            </div>
-                        )}
                         <div className={feedListClass}>
-                            {feeds[listState].data
-                                .filter((feed: any) =>
-                                    activeCategorySlug === null ||
-                                    feed.category?.slug === activeCategorySlug
-                                )
-                                .map(({ id, ...feed }: any) => (
+                            {feeds[listState].data.map(({ id, ...feed }: any) => (
                                 <FeedCard key={id} id={id} {...feed} />
                             ))}
                         </div>

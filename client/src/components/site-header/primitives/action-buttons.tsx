@@ -99,7 +99,6 @@ export function SearchButton({ className, onClose, plain = false }: { className?
 export function LanguageSwitch({ className, plain = false, popoverUp = false }: { className?: string; plain?: boolean; popoverUp?: boolean }) {
   const { i18n } = useTranslation();
   const languages = [
-    { code: "ko", name: "한국어" },
     { code: "en", name: "English" },
     { code: "zh-CN", name: "简体中文" },
     { code: "zh-TW", name: "繁體中文" },

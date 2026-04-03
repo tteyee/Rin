@@ -134,17 +134,18 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
     <Waiting for={feed || error}>
       {feed && (
         <Helmet>
-          <title>{`${(feed as any).meta_title || feed.title || "Unnamed"} - ${siteConfig.name}`}</title>
+          <title>{`${feed.title ?? "Unnamed"} - ${siteConfig.name}`}</title>
           <meta property="og:site_name" content={siteName} />
-          <meta property="og:title" content={(feed as any).meta_title || feed.title || ""} />
-          <meta property="og:image" content={(feed as any).og_image || headImage || siteConfig.avatar} />
+          <meta property="og:title" content={feed.title ?? ""} />
+          <meta property="og:image" content={headImage ?? siteConfig.avatar} />
           <meta property="og:type" content="article" />
           <meta property="og:url" content={document.URL} />
           <meta
-            property="og:description"
+            name="og:description"
             content={
-              (feed as any).meta_description ||
-              (feed.content.length > 200 ? feed.content.substring(0, 200) : feed.content)
+              feed.content.length > 200
+                ? feed.content.substring(0, 200)
+                : feed.content
             }
           />
           <meta name="author" content={feed.user.username} />
@@ -155,8 +156,9 @@ export function FeedPage({ id, TOC, clean }: { id: string, TOC: () => JSX.Elemen
           <meta
             name="description"
             content={
-              (feed as any).meta_description ||
-              (feed.content.length > 200 ? feed.content.substring(0, 200) : feed.content)
+              feed.content.length > 200
+                ? feed.content.substring(0, 200)
+                : feed.content
             }
           />
         </Helmet>

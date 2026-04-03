@@ -487,14 +487,6 @@
     "wordpress": {
       "desc": "WordPress에서 내보낸 XML 파일을 업로드합니다",
       "title": "WordPress에서 가져오기"
-    },
-    "head_code": {
-      "title": "Head 코드 삽입",
-      "desc": "<head> 태그 안에 삽입될 코드입니다. 서치콘솔, 애드센스 인증 코드 등을 입력하세요."
-    },
-    "custom_css": {
-      "title": "커스텀 CSS",
-      "desc": "사이트 전체에 적용될 커스텀 CSS를 입력하세요."
     }
   },
   "sitename": "사이트 이름",
@@ -727,20 +719,5 @@
   },
   "sort_latest": "최신순",
   "sort_popular": "인기순",
-  "total_tags": "총 {{count}}개 태그",
-  "editor": {
-    "rich": "리치 텍스트",
-    "markdown": "마크다운",
-    "html": "HTML"
-  },
-  "writing.seo": "SEO 설정",
-  "writing.seo_title": "SEO 제목",
-  "writing.seo_title_placeholder": "비워두면 글 제목 사용",
-  "writing.seo_description": "SEO 설명",
-  "writing.seo_description_placeholder": "검색 결과에 표시될 설명 (160자 이내 권장)",
-  "writing.og_image": "OG 이미지 URL",
-  "writing.og_image_placeholder": "소셜 공유 시 표시될 이미지 URL",
-  "writing.use_schedule": "예약 발행",
-  "writing.schedule": "예약 발행 등록",
-  "writing.schedule_hint": "설정 시간에 자동으로 발행됩니다"
+  "total_tags": "총 {{count}}개 태그"
 }

@@ -10,8 +10,6 @@ import { RSSService } from "../services/rss";
 import { BlobService, StorageService } from "../services/storage";
 import { TagService } from "../services/tag";
 import { UserService } from "../services/user";
-import { StaticFilesService } from "../services/static-files";
-import { CategoryService } from "../services/category";
 
 export function registerRoutes(app: RinApp) {
   app.get("/", (c) => c.text("Hi"));
@@ -29,8 +27,6 @@ export function registerRoutes(app: RinApp) {
   app.route("/auth", PasswordAuthService());
   app.route("/config", ConfigService());
   app.route("/", RSSService());
-  app.route("/", StaticFilesService());
-  app.route("/category", CategoryService());
   app.route("/favicon", FaviconService());
   app.route("/favicon.ico", FaviconService());
 }

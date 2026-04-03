@@ -2,7 +2,6 @@ import { getApp } from "./app-instance";
 
 const ROOT_FEED_PATTERN = /^\/(rss\.xml|atom\.xml|rss\.json|feed\.json|feed\.xml)$/;
 const APP_PUBLIC_ROUTE_PATTERN = /^\/(favicon|favicon\.ico)(?:\/|$)/;
-const STATIC_FILES_PATTERN = /^\/(ads\.txt|sitemap\.xml)$/;
 
 function isApiRequest(pathname: string) {
   return pathname.startsWith("/api/");
@@ -16,10 +15,6 @@ function rewriteApiRequest(request: Request) {
 
 function isRootFeedRequest(pathname: string) {
   return ROOT_FEED_PATTERN.test(pathname);
-}
-
-function isStaticFileRequest(pathname: string) {
-  return STATIC_FILES_PATTERN.test(pathname);
 }
 
 function isAppPublicRoute(pathname: string) {
@@ -67,10 +62,6 @@ export async function handleFetch(request: Request, env: Env): Promise<Response>
   const pathname = url.pathname;
 
   if (isRootFeedRequest(pathname)) {
-    return getApp().fetch(request, env);
-  }
-
-  if (isStaticFileRequest(pathname)) {
     return getApp().fetch(request, env);
   }
 
