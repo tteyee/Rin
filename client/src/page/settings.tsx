@@ -424,72 +424,6 @@ export function Settings() {
             </SettingsCard>
           </div>
 
-          <ItemTitle title={t("settings.navigation.title")} />
-          <ItemSwitch
-            title={t("settings.navigation.timeline")}
-            description={t("settings.navigation.timeline_desc")}
-            checked={clientConfig.getBoolean("nav.show_timeline")}
-            onChange={(checked) => { setConfigValue("client", "nav.show_timeline", checked); }}
-          />
-          <ItemSwitch
-            title={t("settings.navigation.moments")}
-            description={t("settings.navigation.moments_desc")}
-            checked={clientConfig.getBoolean("nav.show_moments")}
-            onChange={(checked) => { setConfigValue("client", "nav.show_moments", checked); }}
-          />
-          <ItemSwitch
-            title={t("settings.navigation.hashtags")}
-            description={t("settings.navigation.hashtags_desc")}
-            checked={clientConfig.getBoolean("nav.show_hashtags")}
-            onChange={(checked) => { setConfigValue("client", "nav.show_hashtags", checked); }}
-          />
-          <ItemSwitch
-            title={t("settings.navigation.friends")}
-            description={t("settings.navigation.friends_desc")}
-            checked={clientConfig.getBoolean("nav.show_friends")}
-            onChange={(checked) => { setConfigValue("client", "nav.show_friends", checked); }}
-          />
-          <ItemSwitch
-            title={t("settings.navigation.about")}
-            description={t("settings.navigation.about_desc")}
-            checked={clientConfig.getBoolean("nav.show_about")}
-            onChange={(checked) => { setConfigValue("client", "nav.show_about", checked); }}
-          />
-
-          <ItemTitle title={t("settings.advanced.title")} />
-          <ItemInput
-            title={t("settings.advanced.header_code.title")}
-            description={t("settings.advanced.header_code.desc")}
-            configKeyTitle="Header Code"
-            value={String(clientConfig.get("custom.header_code") ?? "")}
-            onChange={(value) => { setConfigValue("client", "custom.header_code", value); }}
-            multiline
-          />
-          <ItemInput
-            title={t("settings.advanced.custom_css.title")}
-            description={t("settings.advanced.custom_css.desc")}
-            configKeyTitle="Custom CSS"
-            value={String(clientConfig.get("custom.css") ?? "")}
-            onChange={(value) => { setConfigValue("client", "custom.css", value); }}
-            multiline
-          />
-          <ItemInput
-            title={t("settings.advanced.custom_script.title")}
-            description={t("settings.advanced.custom_script.desc")}
-            configKeyTitle="Custom Script"
-            value={String(clientConfig.get("custom.script") ?? "")}
-            onChange={(value) => { setConfigValue("client", "custom.script", value); }}
-            multiline
-          />
-          <ItemInput
-            title={t("settings.advanced.ads_txt.title")}
-            description={t("settings.advanced.ads_txt.desc")}
-            configKeyTitle="ads.txt"
-            value={String(serverConfig.get("ads_txt") ?? "")}
-            onChange={(value) => { setConfigValue("server", "ads_txt", value); }}
-            multiline
-          />
-
           <ItemTitle title={t("settings.other.title")} />
           <ItemSwitch
             title={t("settings.login.enable.title")}
@@ -536,6 +470,28 @@ export function Settings() {
             value={String(clientConfig.get("footer") ?? "")}
             onChange={(value) => {
               setConfigValue("client", "footer", value);
+            }}
+          />
+
+          <ItemInput
+            title={t("settings.head_code.title") ?? "Head 코드 삽입"}
+            description={t("settings.head_code.desc") ?? "<head> 태그 안에 삽입될 코드입니다. 서치콘솔, 애드센스 인증 코드 등을 입력하세요."}
+            configKeyTitle="Head Code"
+            value={String(clientConfig.get("head_code") ?? "")}
+            placeholder="<!-- 예: Google Search Console 인증 코드, 애드센스 코드 -->"
+            onChange={(value) => {
+              setConfigValue("client", "head_code", value);
+            }}
+          />
+
+          <ItemInput
+            title={t("settings.custom_css.title") ?? "커스텀 CSS"}
+            description={t("settings.custom_css.desc") ?? "사이트 전체에 적용될 커스텀 CSS를 입력하세요."}
+            configKeyTitle="Custom CSS"
+            value={String(clientConfig.get("custom_css") ?? "")}
+            placeholder="/* 예시: body { font-family: 'Noto Sans KR', sans-serif; } */"
+            onChange={(value) => {
+              setConfigValue("client", "custom_css", value);
             }}
           />
 

@@ -38,6 +38,10 @@ export interface Feed {
   pv: number;
   uv: number;
   top?: number;
+  meta_title?: string;
+  meta_description?: string;
+  og_image?: string;
+  scheduled_at?: string | null;
 }
 
 export interface FeedListResponse {
@@ -76,6 +80,10 @@ export interface CreateFeedRequest {
   listed: boolean;
   createdAt?: string;
   tags: string[];
+  meta_title?: string;
+  meta_description?: string;
+  og_image?: string;
+  scheduled_at?: string;
 }
 
 export interface UpdateFeedRequest {
@@ -88,6 +96,10 @@ export interface UpdateFeedRequest {
   createdAt?: string;
   tags?: string[];
   top?: number;
+  meta_title?: string;
+  meta_description?: string;
+  og_image?: string;
+  scheduled_at?: string | null;
 }
 
 export interface AdjacentFeed {

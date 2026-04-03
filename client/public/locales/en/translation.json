@@ -331,7 +331,7 @@
         "desc": "Enable accessibility check for friends' links",
         "title": "Friend Link Health Monitoring",
         "ua": {
-          "desc": "Set the User-Agent used for friend link accessibility check, default 'Lucky-Check/1.0'",
+          "desc": "Set the User-Agent used for friend link accessibility check, default 'Rin-Check/1.0'",
           "title": "Friend Link Health Monitoring User-Agent"
         }
       },
@@ -488,37 +488,13 @@
       "desc": "Upload the XML file exported from WordPress",
       "title": "Import from WordPress"
     },
-    "navigation": {
-      "title": "Navigation Menu",
-      "timeline": "Timeline",
-      "timeline_desc": "Show Timeline menu item",
-      "moments": "Moments",
-      "moments_desc": "Show Moments menu item",
-      "hashtags": "Hashtags",
-      "hashtags_desc": "Show Hashtags menu item",
-      "friends": "Blog Friends",
-      "friends_desc": "Show Blog Friends menu item",
-      "about": "About",
-      "about_desc": "Show About menu item"
+    "head_code": {
+      "title": "Head Code Injection",
+      "desc": "Code inserted inside <head>. Use for Search Console, AdSense verification, etc."
     },
-    "advanced": {
-      "title": "Advanced Settings",
-      "header_code": {
-        "title": "Header Code Injection",
-        "desc": "Insert code into <head> tag (e.g. Google Search Console, AdSense verification)"
-      },
-      "custom_css": {
-        "title": "Custom CSS",
-        "desc": "Customize styles for h1, h2, h3 and other elements"
-      },
-      "custom_script": {
-        "title": "Custom Script",
-        "desc": "Add custom JavaScript to the page"
-      },
-      "ads_txt": {
-        "title": "ads.txt",
-        "desc": "Enter ads.txt content for ad verification. Served at /ads.txt"
-      }
+    "custom_css": {
+      "title": "Custom CSS",
+      "desc": "Custom CSS applied site-wide."
     }
   },
   "sitename": "Site Name",
@@ -751,5 +727,20 @@
   },
   "sort_latest": "Latest",
   "sort_popular": "Popular",
-  "total_tags": "Total {{count}} tags"
+  "total_tags": "Total {{count}} tags",
+  "editor": {
+    "rich": "Rich Text",
+    "markdown": "Markdown",
+    "html": "HTML"
+  },
+  "writing.seo": "SEO Settings",
+  "writing.seo_title": "SEO Title",
+  "writing.seo_title_placeholder": "Leave blank to use post title",
+  "writing.seo_description": "SEO Description",
+  "writing.seo_description_placeholder": "Description shown in search results (160 chars recommended)",
+  "writing.og_image": "OG Image URL",
+  "writing.og_image_placeholder": "Image URL shown when sharing on social media",
+  "writing.use_schedule": "Schedule Post",
+  "writing.schedule": "Schedule",
+  "writing.schedule_hint": "Will be published automatically at the set time"
 }

@@ -129,7 +129,8 @@ export function FeedService(): Hono<{
         const admin = c.get('admin');
         const uid = c.get('uid');
         const body = await profileAsync(c, 'feed_create_parse', () => c.req.json());
-        const { title, alias, listed, content, summary, draft, tags, createdAt } = body;
+        const { title, alias, listed, content, summary, draft, tags, createdAt,
+                meta_title, meta_description, og_image, scheduled_at } = body;
 
         if (!admin) {
             return c.text('Permission denied', 403);
@@ -151,6 +152,9 @@ export function FeedService(): Hono<{
         }
 
         const date = createdAt ? new Date(createdAt) : new Date();
+        const scheduledDate = scheduled_at ? new Date(scheduled_at) : null;
+        // 예약 발행이면 draft=true 강제
+        const isDraft = scheduledDate ? true : Boolean(draft);
 
         if (!uid) {
             return c.text('User ID is required', 400);
@@ -166,7 +170,11 @@ export function FeedService(): Hono<{
             uid,
             alias,
             listed: listed ? 1 : 0,
-            draft: draft ? 1 : 0,
+            draft: isDraft ? 1 : 0,
+            meta_title: meta_title || "",
+            meta_description: meta_description || "",
+            og_image: og_image || "",
+            scheduled_at: scheduledDate,
             createdAt: date,
             updatedAt: date
         }).returning({ insertedId: feeds.id }));
@@ -375,7 +383,8 @@ export function FeedService(): Hono<{
         const uid = c.get('uid');
         const id = c.req.param('id');
         const body = await profileAsync(c, 'feed_update_parse', () => c.req.json());
-        const { title, listed, content, summary, alias, draft, top, tags, createdAt } = body;
+        const { title, listed, content, summary, alias, draft, top, tags, createdAt,
+                meta_title, meta_description, og_image, scheduled_at } = body;
 
         const id_num = parseInt(id);
         const feed = await profileAsync(c, 'feed_update_lookup', () => db.query.feeds.findFirst({ where: eq(feeds.id, id_num) }));
@@ -389,6 +398,7 @@ export function FeedService(): Hono<{
         }
 
         const contentChanged = content && content !== feed.content;
+        const scheduledDate = scheduled_at !== undefined ? (scheduled_at ? new Date(scheduled_at) : null) : undefined;
         const isDraft = draft !== undefined ? draft : (feed.draft === 1);
         const shouldQueueAISummary = (contentChanged && !isDraft) || (!isDraft && feed.draft === 1 && !feed.ai_summary);
         const updateTime = new Date();
@@ -404,6 +414,10 @@ export function FeedService(): Hono<{
             top,
             listed: listed ? 1 : 0,
             draft: draft === undefined ? undefined : draft ? 1 : 0,
+            meta_title: meta_title !== undefined ? meta_title : undefined,
+            meta_description: meta_description !== undefined ? meta_description : undefined,
+            og_image: og_image !== undefined ? og_image : undefined,
+            scheduled_at: scheduledDate,
             createdAt: createdAt ? new Date(createdAt) : undefined,
             updatedAt: updateTime
         }).where(eq(feeds.id, id_num)));

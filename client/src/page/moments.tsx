@@ -10,7 +10,7 @@ import { tryInt } from "../utils/int"
 import { useSearch } from "wouter"
 import { useAlert, useConfirm } from "../components/dialog"
 import Modal from "react-modal"
-import { MarkdownEditor } from "../components/markdown_editor"
+import { TiptapEditor } from "../components/tiptap_editor"
 import { Waiting } from "../components/loading"
 import { MomentItem } from "../components/moment_item"
 
@@ -259,7 +259,7 @@ export function MomentsPage() {
                     </h2>
                     
                     <div className="bg-w rounded-2xl t-primary">
-                        <MarkdownEditor 
+                        <TiptapEditor 
                             content={content}
                             setContent={setContent}
                             height="300px"

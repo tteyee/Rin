@@ -15,7 +15,9 @@ export async function handleScheduled(
 
   const { friendCrontab } = await import("../services/friends");
   const { rssCrontab } = await import("../services/rss");
+  const { publishScheduledFeeds } = await import("../services/scheduler");
 
   await friendCrontab(env, ctx, db, cache, serverConfig, clientConfig);
   await rssCrontab(env, db);
+  await publishScheduledFeeds(db, cache);
 }

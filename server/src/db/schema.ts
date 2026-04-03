@@ -17,6 +17,12 @@ export const feeds = sqliteTable("feeds", {
     draft: integer("draft").default(1).notNull(),
     top: integer("top").default(0).notNull(),
     uid: integer("uid").references(() => users.id).notNull(),
+    // SEO 필드
+    meta_title: text("meta_title").default("").notNull(),
+    meta_description: text("meta_description").default("").notNull(),
+    og_image: text("og_image").default("").notNull(),
+    // 예약 발행
+    scheduled_at: integer("scheduled_at", { mode: 'timestamp' }),
     createdAt: created_at,
     updatedAt: updated_at,
 });
