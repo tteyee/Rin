@@ -424,6 +424,72 @@ export function Settings() {
             </SettingsCard>
           </div>
 
+          <ItemTitle title={t("settings.navigation.title")} />
+          <ItemSwitch
+            title={t("settings.navigation.timeline")}
+            description={t("settings.navigation.timeline_desc")}
+            checked={clientConfig.getBoolean("nav.show_timeline")}
+            onChange={(checked) => { setConfigValue("client", "nav.show_timeline", checked); }}
+          />
+          <ItemSwitch
+            title={t("settings.navigation.moments")}
+            description={t("settings.navigation.moments_desc")}
+            checked={clientConfig.getBoolean("nav.show_moments")}
+            onChange={(checked) => { setConfigValue("client", "nav.show_moments", checked); }}
+          />
+          <ItemSwitch
+            title={t("settings.navigation.hashtags")}
+            description={t("settings.navigation.hashtags_desc")}
+            checked={clientConfig.getBoolean("nav.show_hashtags")}
+            onChange={(checked) => { setConfigValue("client", "nav.show_hashtags", checked); }}
+          />
+          <ItemSwitch
+            title={t("settings.navigation.friends")}
+            description={t("settings.navigation.friends_desc")}
+            checked={clientConfig.getBoolean("nav.show_friends")}
+            onChange={(checked) => { setConfigValue("client", "nav.show_friends", checked); }}
+          />
+          <ItemSwitch
+            title={t("settings.navigation.about")}
+            description={t("settings.navigation.about_desc")}
+            checked={clientConfig.getBoolean("nav.show_about")}
+            onChange={(checked) => { setConfigValue("client", "nav.show_about", checked); }}
+          />
+
+          <ItemTitle title={t("settings.advanced.title")} />
+          <ItemInput
+            title={t("settings.advanced.header_code.title")}
+            description={t("settings.advanced.header_code.desc")}
+            configKeyTitle="Header Code"
+            value={String(clientConfig.get("custom.header_code") ?? "")}
+            onChange={(value) => { setConfigValue("client", "custom.header_code", value); }}
+            multiline
+          />
+          <ItemInput
+            title={t("settings.advanced.custom_css.title")}
+            description={t("settings.advanced.custom_css.desc")}
+            configKeyTitle="Custom CSS"
+            value={String(clientConfig.get("custom.css") ?? "")}
+            onChange={(value) => { setConfigValue("client", "custom.css", value); }}
+            multiline
+          />
+          <ItemInput
+            title={t("settings.advanced.custom_script.title")}
+            description={t("settings.advanced.custom_script.desc")}
+            configKeyTitle="Custom Script"
+            value={String(clientConfig.get("custom.script") ?? "")}
+            onChange={(value) => { setConfigValue("client", "custom.script", value); }}
+            multiline
+          />
+          <ItemInput
+            title={t("settings.advanced.ads_txt.title")}
+            description={t("settings.advanced.ads_txt.desc")}
+            configKeyTitle="ads.txt"
+            value={String(serverConfig.get("ads_txt") ?? "")}
+            onChange={(value) => { setConfigValue("server", "ads_txt", value); }}
+            multiline
+          />
+
           <ItemTitle title={t("settings.other.title")} />
           <ItemSwitch
             title={t("settings.login.enable.title")}

@@ -487,6 +487,38 @@
     "wordpress": {
       "desc": "WordPress에서 내보낸 XML 파일을 업로드합니다",
       "title": "WordPress에서 가져오기"
+    },
+    "navigation": {
+      "title": "네비게이션 메뉴",
+      "timeline": "타임라인",
+      "timeline_desc": "타임라인 메뉴를 표시합니다",
+      "moments": "모멘트",
+      "moments_desc": "모멘트 메뉴를 표시합니다",
+      "hashtags": "해시태그",
+      "hashtags_desc": "해시태그 메뉴를 표시합니다",
+      "friends": "블로그 친구",
+      "friends_desc": "블로그 친구 메뉴를 표시합니다",
+      "about": "소개",
+      "about_desc": "소개 메뉴를 표시합니다"
+    },
+    "advanced": {
+      "title": "고급 설정",
+      "header_code": {
+        "title": "Header 코드 삽입",
+        "desc": "네이버 서치어드바이저, 구글 애드센스 등 <head> 태그에 삽입할 코드를 입력하세요"
+      },
+      "custom_css": {
+        "title": "커스텀 CSS",
+        "desc": "h1, h2, h3 등 스타일을 직접 수정할 수 있습니다"
+      },
+      "custom_script": {
+        "title": "커스텀 Script",
+        "desc": "페이지에 추가할 JavaScript 코드를 입력하세요"
+      },
+      "ads_txt": {
+        "title": "ads.txt",
+        "desc": "광고 인증을 위한 ads.txt 내용을 입력하세요. /ads.txt 경로로 제공됩니다"
+      }
     }
   },
   "sitename": "사이트 이름",
