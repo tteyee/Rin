@@ -50,10 +50,6 @@ export function createMockDB() {
             draft INTEGER DEFAULT 1 NOT NULL,
             top INTEGER DEFAULT 0 NOT NULL,
             uid INTEGER NOT NULL,
-            meta_title TEXT DEFAULT '' NOT NULL,
-            meta_description TEXT DEFAULT '' NOT NULL,
-            og_image TEXT DEFAULT '' NOT NULL,
-            scheduled_at INTEGER,
             created_at INTEGER DEFAULT (unixepoch()),
             updated_at INTEGER DEFAULT (unixepoch()),
             FOREIGN KEY (uid) REFERENCES users(id)

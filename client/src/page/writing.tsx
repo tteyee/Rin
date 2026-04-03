@@ -1,6 +1,5 @@
 import i18n from 'i18next';
-import _ from 'lodash';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import Loading from 'react-loading';
