@@ -215,7 +215,7 @@ export function SitemapService(): Hono {
   });
 
   // GET /sitemap-posts-:page.xml - Posts Sitemap
-  app.get('/sitemap-posts-:page', async (c: AppContext) => {
+  app.get('/sitemap-posts-:page.xml', async (c: AppContext) => {
     const env = c.get('env');
     const db = c.get('db');
     const page = parseInt(c.req.param('page'), 10);
@@ -293,7 +293,7 @@ export function SitemapService(): Hono {
   });
 
   // GET /sitemap-tags-:page.xml - Tags Sitemap
-  app.get('/sitemap-tags-:page', async (c: AppContext) => {
+  app.get('/sitemap-tags-:page.xml', async (c: AppContext) => {
     const env = c.get('env');
     const db = c.get('db');
     const page = parseInt(c.req.param('page'), 10);
