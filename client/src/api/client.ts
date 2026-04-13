@@ -18,6 +18,10 @@ import type {
   UpdateProfileRequest,
   Tag,
   TagDetail,
+  Category,
+  CategoryDetail,
+  CreateCategoryRequest,
+  UpdateCategoryRequest,
   Comment,
   CreateCommentRequest,
   Friend,
@@ -140,6 +144,10 @@ export type {
   UpdateProfileRequest,
   Tag,
   TagDetail,
+  Category,
+  CategoryDetail,
+  CreateCategoryRequest,
+  UpdateCategoryRequest,
   Comment,
   CreateCommentRequest,
   Friend,
@@ -339,6 +347,38 @@ class TagAPI {
   // GET /api/tag/:name
   async get(name: string): Promise<ApiResponse<TagDetail>> {
     return this.http.get<TagDetail>(`/api/tag/${encodeURIComponent(name)}`);
+  }
+}
+
+/**
+ * Category API methods
+ */
+class CategoryAPI {
+  constructor(private http: HttpClient) {}
+
+  // GET /api/category
+  async list(): Promise<ApiResponse<Category[]>> {
+    return this.http.get<Category[]>("/api/category");
+  }
+
+  // GET /api/category/:name
+  async get(name: string): Promise<ApiResponse<CategoryDetail>> {
+    return this.http.get<CategoryDetail>(`/api/category/${encodeURIComponent(name)}`);
+  }
+
+  // POST /api/category (admin only)
+  async create(body: CreateCategoryRequest): Promise<ApiResponse<Category>> {
+    return this.http.post<Category>("/api/category", body);
+  }
+
+  // PUT /api/category/:id (admin only)
+  async update(id: number, body: UpdateCategoryRequest): Promise<ApiResponse<Category>> {
+    return this.http.put<Category>(`/api/category/${id}`, body);
+  }
+
+  // DELETE /api/category/:id (admin only)
+  async delete(id: number): Promise<ApiResponse<void>> {
+    return this.http.delete<void>(`/api/category/${id}`);
   }
 }
 
@@ -653,6 +693,7 @@ export class ApiClient {
   private http: HttpClient;
   feed: FeedAPI;
   tag: TagAPI;
+  category: CategoryAPI;
   comment: CommentAPI;
   user: UserAPI;
   friend: FriendAPI;
@@ -669,6 +710,7 @@ export class ApiClient {
     this.http = new HttpClient(baseUrl);
     this.feed = new FeedAPI(this.http);
     this.tag = new TagAPI(this.http);
+    this.category = new CategoryAPI(this.http);
     this.comment = new CommentAPI(this.http);
     this.user = new UserAPI(this.http);
     this.friend = new FriendAPI(this.http);

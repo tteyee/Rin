@@ -29,6 +29,11 @@ export interface Feed {
   ai_summary: string;
   ai_summary_status: "idle" | "pending" | "processing" | "completed" | "failed";
   ai_summary_error: string;
+  category?: {
+    id: number;
+    name: string;
+    slug: string;
+  };
   hashtags: Array<{ id: number; name: string }>;
   user: {
     avatar: string | null;
@@ -75,6 +80,7 @@ export interface CreateFeedRequest {
   draft: boolean;
   listed: boolean;
   createdAt?: string;
+  categoryId?: number;
   tags: string[];
 }
 
@@ -86,6 +92,7 @@ export interface UpdateFeedRequest {
   listed: boolean;
   draft?: boolean;
   createdAt?: string;
+  categoryId?: number;
   tags?: string[];
   top?: number;
 }
@@ -154,6 +161,34 @@ export interface Tag {
 
 export interface TagDetail extends Tag {
   feeds: Feed[];
+}
+
+// ============================================================================
+// Category Types
+// ============================================================================
+
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  description?: string;
+  count: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CategoryDetail extends Category {
+  feeds: Feed[];
+}
+
+export interface CreateCategoryRequest {
+  name: string;
+  description?: string;
+}
+
+export interface UpdateCategoryRequest {
+  name?: string;
+  description?: string;
 }
 
 // ============================================================================
