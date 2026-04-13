@@ -1,8 +1,9 @@
 import { and, eq } from "drizzle-orm";
 import { Hono } from "hono";
-import type { DB, AppContext } from "../core/hono-types";
+import type { AppContext } from "../core/hono-types";
 import { profileAsync } from "../core/server-timing";
 import { categories, feeds } from "../db/schema";
+import type { DB } from "../core/hono-types";
 
 // Helper: Convert string to slug
 function slugify(str: string): string {
@@ -92,9 +93,9 @@ export function CategoryService(): Hono {
   app.post("/", async (c: AppContext) => {
     const db = c.get("db");
     const admin = c.get("admin");
-    const user = c.get("user");
+    const uid = c.get("uid");
 
-    if (!admin || !user) {
+    if (!admin || !uid) {
       return c.text("Unauthorized", 403);
     }
 
@@ -113,7 +114,7 @@ export function CategoryService(): Hono {
           name,
           slug,
           description: description || null,
-          uid: user.id,
+          uid,
         })
         .returning();
 
@@ -135,9 +136,9 @@ export function CategoryService(): Hono {
   app.put("/:id", async (c: AppContext) => {
     const db = c.get("db");
     const admin = c.get("admin");
-    const user = c.get("user");
+    const uid = c.get("uid");
 
-    if (!admin || !user) {
+    if (!admin || !uid) {
       return c.text("Unauthorized", 403);
     }
 
@@ -159,7 +160,7 @@ export function CategoryService(): Hono {
         return c.text("Category not found", 404);
       }
 
-      if (category.uid !== user.id && !admin) {
+      if (category.uid !== uid && !admin) {
         return c.text("Unauthorized", 403);
       }
 
@@ -171,7 +172,6 @@ export function CategoryService(): Hono {
       if (description !== undefined) {
         updateData.description = description;
       }
-      updateData.updatedAt = new Date();
 
       const result = await db
         .update(categories)
@@ -197,9 +197,9 @@ export function CategoryService(): Hono {
   app.delete("/:id", async (c: AppContext) => {
     const db = c.get("db");
     const admin = c.get("admin");
-    const user = c.get("user");
+    const uid = c.get("uid");
 
-    if (!admin || !user) {
+    if (!admin || !uid) {
       return c.text("Unauthorized", 403);
     }
 
@@ -218,7 +218,7 @@ export function CategoryService(): Hono {
         return c.text("Category not found", 404);
       }
 
-      if (category.uid !== user.id && !admin) {
+      if (category.uid !== uid && !admin) {
         return c.text("Unauthorized", 403);
       }
 
@@ -235,7 +235,7 @@ export function CategoryService(): Hono {
         return c.text("Failed to delete category", 500);
       }
 
-      return c.text("OK", 204);
+      return c.json({ success: true });
     } catch (error) {
       console.error("Error deleting category:", error);
       return c.text("Internal Server Error", 500);

@@ -31,8 +31,13 @@ function escapeXml(str: string): string {
 }
 
 // Helper: Format date to ISO 8601
-function formatDate(timestamp: number): string {
-  const date = new Date(timestamp * 1000);
+function formatDate(timestamp: number | Date): string {
+  let date: Date;
+  if (timestamp instanceof Date) {
+    date = timestamp;
+  } else {
+    date = new Date(timestamp * 1000);
+  }
   return date.toISOString().split('T')[0];
 }
 
@@ -115,8 +120,8 @@ async function getCachedSitemap(
   try {
     const folder = env.S3_CACHE_FOLDER || 'cache/';
     const key = `${folder}${cacheKey}`;
-    const data = await getStorageObject(env, key);
-    return data ? new TextDecoder().decode(data) : null;
+    const response = await getStorageObject(env, key);
+    return response ? await response.text() : null;
   } catch {
     return null;
   }
@@ -131,10 +136,7 @@ async function cacheSitemap(env: Env, cacheKey: string, content: string) {
       env,
       key,
       new TextEncoder().encode(content),
-      {
-        'Content-Type': 'application/xml; charset=UTF-8',
-        'Cache-Control': `public, max-age=${CACHE_TTL}`,
-      },
+      'application/xml; charset=UTF-8',
     );
   } catch (e) {
     console.error('Failed to cache sitemap:', e);
