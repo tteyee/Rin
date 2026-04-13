@@ -1,1 +1,1 @@
-export { Checkbox, Input } from "@rin/ui";
+export { Checkbox, Input } from "@lucky/ui";

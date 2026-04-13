@@ -1,10 +1,10 @@
 {
-  "name": "rin-cli",
+  "name": "lucky-cli",
   "version": "0.3.0",
-  "description": "Rin CLI - Unified command line interface for Rin blog platform",
+  "description": "Lucky CLI - Unified command line interface for Lucky blog platform",
   "type": "module",
   "bin": {
-    "rin": "./bin/rin.ts"
+    "lucky": "./bin/lucky.ts"
   },
   "scripts": {
     "check": "tsc --noEmit",

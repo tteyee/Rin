@@ -1,4 +1,4 @@
-import type { Feed } from "@rin/api";
+import type { Feed } from "@lucky/api";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";

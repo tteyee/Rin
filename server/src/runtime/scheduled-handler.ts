@@ -15,7 +15,9 @@ export async function handleScheduled(
 
   const { friendCrontab } = await import("../services/friends");
   const { rssCrontab } = await import("../services/rss");
+  const { invalidateSitemapCache } = await import("../services/sitemap");
 
   await friendCrontab(env, ctx, db, cache, serverConfig, clientConfig);
   await rssCrontab(env, db);
+  await invalidateSitemapCache(env, db);
 }

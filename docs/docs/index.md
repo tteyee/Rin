@@ -23,7 +23,7 @@ features:
     details: 写作时无需构建，实时写作和编辑
     icon: 🪶
   - title: 类型安全
-    details: 通过 @rin/api 共享类型实现端到端类型安全
+    details: 通过 @lucky/api 共享类型实现端到端类型安全
     icon: 🛡️
   - title: 健康检查
     details: 每20分钟检查一次友链健康状态

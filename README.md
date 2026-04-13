@@ -33,7 +33,7 @@ https://xeu.life
 - **Webhook Notifications**: Receive real-time alerts for new comments via configurable webhooks.
 - **Featured Images**: Automatically detect the first image in an article and use it as the cover image in listings.
 - **Tag Parsing**: Input tags like `#Blog #Cloudflare` and have them automatically parsed and displayed.
-- **Type Safety**: End-to-end type safety with shared TypeScript types between client and server via `@rin/api` package.
+- **Type Safety**: End-to-end type safety with shared TypeScript types between client and server via `@lucky/api` package.
 - ...and more! Explore all features at https://xeu.life.
 
 ## Documentation

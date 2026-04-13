@@ -198,13 +198,13 @@ cd server && bun run test:coverage
 - **特性**：类型安全请求、错误处理、认证令牌管理
 - **使用方式**：所有 API 调用都通过类型化客户端进行
 
-### 共享类型 (@rin/api)
+### 共享类型 (@lucky/api)
 
-`@rin/api` 包为客户端和服务端提供共享的 TypeScript 类型：
+`@lucky/api` 包为客户端和服务端提供共享的 TypeScript 类型：
 
 - **位置**：`packages/api/`
 - **用途**：API 契约的端到端类型安全
-- **使用方式**：在客户端和服务端代码中从 `@rin/api` 导入类型
+- **使用方式**：在客户端和服务端代码中从 `@lucky/api` 导入类型
 
 添加新 API 端点时：
 1. 在 `packages/api/src/types.ts` 中定义类型
@@ -267,7 +267,7 @@ bun run dev:setup
 │   ├── tests/             # 测试文件
 │   └── package.json
 ├── packages/               # 共享包
-│   └── api/                # @rin/api - 共享 API 类型
+│   └── api/                # @lucky/api - 共享 API 类型
 ├── cli/                    # Rin CLI 工具
 │   ├── bin/               # 薄入口
 │   ├── src/               # 命令、任务、共享工具

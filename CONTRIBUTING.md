@@ -1,4 +1,4 @@
-# Contribute to Rin
+# Contribute to Lucky
 
 English | [简体中文](./CONTRIBUTING_zh_CN.md)
 
@@ -48,7 +48,7 @@ If you want to skip the hook, run `git commit` with the `--no-verify` option.
 
 6. Perform the database migration
    > [!TIP]  
-   > If your database name (`database_name` in `wrangler.toml`) is not `rin`\
+   > If your database name (`database_name` in `wrangler.toml`) is not `lucky`\
    > Please modify `DB_NAME` in your local env or pass the CLI option before performing the migration
     ```sh
     bun run db:migrate
@@ -57,7 +57,7 @@ If you want to skip the hook, run `git commit` with the `--no-verify` option.
 7. Configuring the `.dev.vars' file
    Copy `.dev.example.vars` to `.dev.vars` and fill in the required information
    > [!TIP]   
-   > Typically, you need to fill in the `RIN_GITHUB_CLIENT_ID` and `RIN_GITHUB_CLIENT_SECRET` as well as
+   > Typically, you need to fill in the `LUCKY_GITHUB_CLIENT_ID` and `LUCKY_GITHUB_CLIENT_SECRET` as well as
    the `JWT_SECRET` fields.
    > In the development environment, you need to create a separate GitHub OAuth service with a callback address
    > of `http://localhost:11498/api/user/github/callback` \\

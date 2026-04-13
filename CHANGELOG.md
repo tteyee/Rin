@@ -124,7 +124,7 @@ This prerelease rolls up the work completed after `v0.2.0` into a single upgrade
 
 ### Added
 - **Unified Rin CLI**: Added a first-party CLI entrypoint for local development, deployment, database tasks, and release preparation.
-- **Shared workspace packages**: Introduced `@rin/api`, `@rin/config`, and `@rin/ui` as real shared packages used by the app.
+- **Shared workspace packages**: Introduced `@lucky/api`, `@lucky/config`, and `@lucky/ui` as real shared packages used by the app.
 - **Authentication options**: Added password-based admin login, a dedicated `/login` page, and a `/profile` page for avatar and nickname updates.
 - **AI configuration**: Added AI summary support, custom model support, and merged AI settings into the main server configuration flow.
 - **Content features**: Added Moments, search, pinned/top feeds, adjacent feed navigation, friend sorting and apply flows, visit count display, and compatibility task management pages.
@@ -133,7 +133,7 @@ This prerelease rolls up the work completed after `v0.2.0` into a single upgrade
 
 ### Changed
 - **Backend runtime**: Replaced the old Elysia-based server stack with a lighter Worker-oriented runtime and then a Hono-based app assembly, with lazy route/dependency loading and clearer middleware boundaries.
-- **API client**: Replaced Eden Treaty usage with a custom type-safe API client and shared transport contracts in `@rin/api`.
+- **API client**: Replaced Eden Treaty usage with a custom type-safe API client and shared transport contracts in `@lucky/api`.
 - **Authentication transport**: Moved authenticated requests from authorization headers to cookie-based sessions and replaced the previous OAuth dependency with an in-repo OAuth implementation.
 - **Statistics and caching**: Migrated PV/UV aggregation to HyperLogLog and added cache persistence modes for both D1 and S3.
 - **Configuration and deployment**: Simplified local development setup, removed legacy `FRONTEND_URL` and `API_URL` assumptions, and updated CI/deploy workflows around generated Wrangler configuration and repository-level variables.
@@ -177,7 +177,7 @@ This prerelease rolls up the work completed after `v0.2.0` into a single upgrade
 
 #### 新增
 - **统一 Rin CLI**：新增一套一方维护的 CLI 入口，用于本地开发、部署、数据库任务和 release 准备。
-- **共享 workspace 包**：引入 `@rin/api`、`@rin/config` 和 `@rin/ui`，作为应用当前实际使用的共享包。
+- **共享 workspace 包**：引入 `@lucky/api`、`@lucky/config` 和 `@lucky/ui`，作为应用当前实际使用的共享包。
 - **认证方式扩展**：新增账号密码登录、独立 `/login` 页面，以及可更新头像和昵称的 `/profile` 页面。
 - **AI 配置能力**：新增 AI 摘要、自定义模型支持，并将 AI 设置并入主服务端配置流程。
 - **内容能力**：新增 Moments、搜索、置顶文章、相邻文章、友情链接排序与申请流程、访问统计展示以及兼容性任务管理页面。
@@ -186,7 +186,7 @@ This prerelease rolls up the work completed after `v0.2.0` into a single upgrade
 
 #### 变更
 - **后端运行时**：将旧的 Elysia 服务端栈替换为更轻量的 Worker 运行时，并进一步整理为 Hono 应用装配结构，支持懒加载路由与依赖，并使中间件边界更清晰。
-- **API client**：移除 Eden Treaty 调用方式，改为自定义的类型安全 API client，并通过 `@rin/api` 共享传输契约。
+- **API client**：移除 Eden Treaty 调用方式，改为自定义的类型安全 API client，并通过 `@lucky/api` 共享传输契约。
 - **认证传输**：认证请求从 Authorization Header 迁移为 Cookie Session，同时将原 OAuth 依赖替换为仓库内实现。
 - **统计与缓存**：PV/UV 统计迁移到 HyperLogLog，并为缓存新增 D1 与 S3 两种持久化模式。
 - **配置与部署**：简化本地开发设置，移除旧的 `FRONTEND_URL` 与 `API_URL` 假设，并更新围绕 Wrangler 生成配置和仓库级变量的 CI / 部署流程。

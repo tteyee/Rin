@@ -11,7 +11,7 @@ import {
   SettingsCardHeader,
   SettingsCardRow,
   SettingsSectionTitle,
-} from "@rin/ui";
+} from "@lucky/ui";
 
 export function ItemTitle({ title }: { title: string }) {
   return <SettingsSectionTitle title={title} />;

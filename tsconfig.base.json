@@ -10,13 +10,13 @@
     "isolatedModules": true,
     "baseUrl": ".",
     "paths": {
-      "@rin/api": [
+      "@lucky/api": [
         "packages/api/src/index.ts"
       ],
-      "@rin/ui": [
+      "@lucky/ui": [
         "packages/ui/src/index.ts"
       ],
-      "@rin/config": [
+      "@lucky/config": [
         "packages/config/src/index.ts"
       ]
     }

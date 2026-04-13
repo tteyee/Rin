@@ -21,7 +21,7 @@ export function bootstrapApp() {
       backend: {
         loadPath: "/locales/{{lng}}/{{ns}}.json",
       },
-      fallbackLng: "en",
+      fallbackLng: "ko",
       interpolation: {
         escapeValue: false,
       },

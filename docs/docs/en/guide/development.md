@@ -198,13 +198,13 @@ The project uses a custom HTTP client instead of Eden for type-safe API communic
 - **Features**: Type-safe requests, error handling, auth token management
 - **Usage**: All API calls go through the typed client
 
-### Shared Types (@rin/api)
+### Shared Types (@lucky/api)
 
-The `@rin/api` package provides shared TypeScript types for both client and server:
+The `@lucky/api` package provides shared TypeScript types for both client and server:
 
 - **Location**: `packages/api/`
 - **Purpose**: End-to-end type safety for API contracts
-- **Usage**: Import types from `@rin/api` in both client and server code
+- **Usage**: Import types from `@lucky/api` in both client and server code
 
 When adding new API endpoints:
 1. Define types in `packages/api/src/types.ts`
@@ -267,7 +267,7 @@ GitHub OAuth needs to be configured for local development:
 │   ├── tests/             # Test files
 │   └── package.json
 ├── packages/               # Shared packages
-│   └── api/                # @rin/api - Shared API types
+│   └── api/                # @lucky/api - Shared API types
 ├── cli/                    # Rin CLI tool
 │   ├── bin/               # Thin executable entrypoints
 │   ├── src/               # Commands, tasks, shared helpers

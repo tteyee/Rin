@@ -5,7 +5,7 @@ import {
   SettingsCardBody,
   SettingsCardHeader,
   SettingsCardRow,
-} from "@rin/ui";
+} from "@lucky/ui";
 import * as Switch from "@radix-ui/react-switch";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
