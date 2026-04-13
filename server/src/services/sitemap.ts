@@ -234,9 +234,10 @@ export function SitemapService(): Hono {
       const siteUrl = getSiteUrl(c);
       const offset = (page - 1) * ITEMS_PER_SITEMAP;
 
-      const posts = await profileAsync(c, 'sitemap_fetch_posts', () =>
-        db.query.feeds.findMany({
-          where: and(eq(feeds.draft, 0), eq(feeds.listed, 1)),
+      const posts = await profileAsync(c, 'sitemap_fetch_posts', () => {
+        console.log('Fetching sitemap posts...');
+        return db.query.feeds.findMany({
+          where: eq(feeds.draft, 0),
           columns: {
             id: true,
             alias: true,
@@ -247,8 +248,8 @@ export function SitemapService(): Hono {
           orderBy: desc(feeds.updatedAt),
           limit: ITEMS_PER_SITEMAP,
           offset: offset,
-        }),
-      );
+        });
+      });
 
       if (posts.length === 0) {
         return c.text('Not found', 404);
